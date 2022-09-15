@@ -1,0 +1,32 @@
+{
+  "name": "lottie-helper",
+  "version": "1.0.7",
+  "description": "lottie-helper",
+  "main": "./src/index.js",
+  "bin": {
+    "lohelp": "bin/lottie.help.js"
+  },
+  "scripts": {
+    "start": "node run build",
+    "action": "node dist/bundle.min.js",
+    "build": "pnpm i && npm run build-controller && npm run build-main",
+    "build-main": "npx rollup -c ./rollup.config.js",
+    "build-controller": "npx rollup -c ./rollup.config.controller.js",
+    "test": "echo \"Error: no test specified\""
+  },
+  "author": "jf",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.18.10",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12",
+    "commander": "^9.4.0",
+    "minimist": "^1.2.6"
+  }
+}
