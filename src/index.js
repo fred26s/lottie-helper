@@ -22,8 +22,6 @@ const hasUserJsonURL = userJsonURL === "undefined" ? false : userJsonURL;
   }
 
   // * 加载动画JSON
-  // 1.本地加载JSON
-  // const jsonResult = await loadJson("lottie.json");
   // 将读取的文件，写入指定位置
   // TODO 这里增加引入JSON的方式： 1.本地JSON 2.远程URL加载
   // 2.URL加载JSON
@@ -58,25 +56,33 @@ const hasUserJsonURL = userJsonURL === "undefined" ? false : userJsonURL;
     const htmlResult = await loadHTML(htmlFileName);
     const $ = cheerio.load(htmlResult);
 
+    // 重置清空，支持反复执行初始化命令
+    const flagClass = "lohelp-flag";
+    $(`div[class=${flagClass}]`).remove();
+    $(`style[class=${flagClass}]`).remove();
+    $(`script[class=${flagClass}]`).remove();
+
     // * 2.操作HTML，插入内容
     // 插入controller动画逻辑
     // ! TODO 这里加载逻辑在npm全局模式下，引用路径有问题
     const bundleResult = await loadJs("controller.min.js");
     $("body").prepend(
-      `<script type="text/javascript">${bundleResult}</script>`
+      `<script type="text/javascript" class="${flagClass}">${bundleResult}</script>`
     );
     // 将加载的json文件，动态在第一行插入  `window.animateJson = 动画json`
     $("body").prepend(
-      `<script type="text/javascript">window.animateJson=${jsonResult}</script>`
+      `<script type="text/javascript" class="${flagClass}">window.animateJson=${jsonResult}</script>`
     );
     // lottie动画DOM容器
-    $("body").prepend(`<div id="lottie-wrapper"><div id="lottie"></div></div>`);
+    $("body").prepend(
+      `<div id="lottie-wrapper" class="${flagClass}"><div id="lottie"></div></div>`
+    );
     $("head").append(
-      `<style>#lottie-wrapper {position: absolute;left: 0;top: 0;width: 100%;height: 100%;background: #fff;background-size: cover;z-index: 999999 !important;transition: all 1s;overflow: hidden;}#lottie {position: absolute;left: 50%;top: 50%;width: 50%;transform: translate(-50%, -50%);}</style>`
+      `<style class="${flagClass}">#lottie-wrapper {position: absolute;left: 0;top: 0;width: 100%;height: 100%;background: #fff;background-size: cover;z-index: 999999 !important;transition: all 1s;overflow: hidden;}#lottie {position: absolute;left: 50%;top: 50%;width: 50%;transform: translate(-50%, -50%);}</style>`
     );
     // lottie依赖库
     $("head").append(
-      `<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>`
+      `<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js" class="${flagClass}"></script>`
     );
 
     // * 3.输出修改后的HTML资源
