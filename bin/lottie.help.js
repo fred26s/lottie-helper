@@ -9,7 +9,9 @@ const versionPath = join(versionDir, "package.json");
 var packageJson = require(`${versionPath}`);
 
 // * commander命令行参数处理
-var jsonURL;
+var jsonURL, ctrlRemove;
+
+// 命令行逻辑
 program
   .version(packageJson.version, "-v, -V , --version")
   // 自定义lottie jsonURL
@@ -22,6 +24,14 @@ program
         console.log("Use external resource json");
         console.log(val);
       }
+    }
+  )
+  // 删除lohelp插入HTML的所有内容
+  .option(
+    "-r,--remove",
+    "remove: can reset all changes for lottie-helper",
+    () => {
+      ctrlRemove = true;
     }
   )
   .parse(process.argv);
@@ -48,4 +58,8 @@ const nodeRunShell = (shell) => {
 // 这里引用执行全局插件路径下的主文件
 const mainPath = resolve(__dirname, "..");
 // * 这里若是调试模式，则引入/dist/bundle.js未编译文件即可
-nodeRunShell(`node ${mainPath}/dist/bundle.min.js --userJsonURL ${jsonURL}`);
+nodeRunShell(
+  `node ${mainPath}/dist/bundle.min.js --userJsonURL ${jsonURL} ${
+    ctrlRemove ? "--removeFlagFile" : ""
+  }`
+);

@@ -44,7 +44,7 @@ npx lottie-helper lohelp -j /lottie-json/118336-please-wait.json
 
 一键自定义想要的 Lottie 动画内容！
 
-> 自定义的动画资源可在如下 【资源】标题中查找。
+> 自定义的动画资源可在[【资源】](#资源)标题中查找。
 
 - `-j`
 
@@ -58,8 +58,15 @@ npx lottie-helper lohelp -j /lottie-json/118336-please-wait.json
 
 
 
+## feature
+
+- 可随意重复执行`npx lottie-helper lohelp`，插件会自动帮你初始化改动！
+- 技术栈无关，只关心你最终的HTML资源变动！
+
+
+
 
 ## TODO
 
-- inquirer，控制台箭头操作，常用交互式命令行用户界面的集合。
+- inquirer，控制台箭头操作，常用交互式命令行用户界面的集合
 
