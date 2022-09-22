@@ -1,5 +1,6 @@
 .history
 .vscode
+.gitignore
 
 lib
 node_modules
@@ -9,3 +10,4 @@ src
 package-lock.json
 rollup.config.js
 rollup.config.controller.js
+index.html
