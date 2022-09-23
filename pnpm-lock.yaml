@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@babel/core': ^7.0.0
@@ -6,9 +6,9 @@ specifiers:
   '@rollup/plugin-babel': ^5.3.1
   '@rollup/plugin-json': ^4.1.0
   axios: ^0.27.2
-  cheerio: ^1.0.0-rc.12
+  cheerio: 1.0.0-rc.12
   commander: ^9.4.0
-  minimist: ^1.2.6
+  minimist: 1.2.6
   rollup-plugin-terser: ^7.0.2
 
 dependencies:
