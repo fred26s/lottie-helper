@@ -1,8 +1,11 @@
 import cheerio from "cheerio";
-import { loadHTML, loadJs, writeHTML } from "../loadJson";
+import { loadHTML, loadJs, writeHTML } from "../utils/file";
 import axios from "../utils/axios";
 import config from "../config/index.js";
+import { getToken, setToken } from "../utils/token";
 
+// TODO 优化：遍历自动寻找，执行命令的目录下index
+// 暂使用执行命令目录下的index.html， 支持传入文件名
 export async function coreLoadHTML() {
   const htmlResult = await loadHTML(config.defaultFileNameHTML);
   const $ = cheerio.load(htmlResult);
@@ -72,4 +75,14 @@ export async function coreWriteFile($) {
   // TODO 优化：输出到之前遍历获取的HTML路径
   const writeRes = await writeHTML(config.defaultFileNameHTML, htmlStr);
   console.log(writeRes);
+}
+
+// 接口权限
+export async function coreAuth() {
+  try {
+    const token = await getToken();
+    setToken(token);
+  } catch (error) {
+    console.log(`coreAuthErr: ${error}`);
+  }
 }
