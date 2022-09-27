@@ -16,7 +16,7 @@ console.log("userJsonURL：", userJsonURL);
 // ===判断指令string
 const hasUserJsonURL = userJsonURL === "undefined" ? false : userJsonURL;
 // console.log("---");
-console.log(removeFlagFile);
+// console.log(removeFlagFile);
 // console.log(removeFlagFile === true);
 console.log(`Release-Time:${new Date()}`);
 (async () => {

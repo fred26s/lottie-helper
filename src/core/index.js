@@ -1,5 +1,5 @@
 import cheerio from "cheerio";
-import { loadHTML, loadJs, writeHTML } from "../utils/file";
+import { loadHTML, loadHTMLDir, loadJs, writeHTML } from "../utils/file";
 import axios from "../utils/axios";
 import config from "../config/index.js";
 import { getToken, setToken } from "../utils/token";
@@ -7,9 +7,34 @@ import { getToken, setToken } from "../utils/token";
 // TODO 优化：遍历自动寻找，执行命令的目录下index
 // 暂使用执行命令目录下的index.html， 支持传入文件名
 export async function coreLoadHTML() {
-  const htmlResult = await loadHTML(config.defaultFileNameHTML);
-  const $ = cheerio.load(htmlResult);
-  return $;
+  try {
+
+    const files = await loadHTMLDir();
+    let targetFileName;
+    // 优先使用默认index.html
+    const isDefaultName = files.find((e) => e === config.defaultFileNameHTML);
+    // 返回默认index.html，或第一个获取的.html文件
+    targetFileName =
+      isDefaultName ||
+      files.find((e) => {
+        const fileExtension = e.split(".").pop().toLowerCase();
+        if (fileExtension === "html") {
+          return e;
+        }
+      });
+    // 若未找到.html则抛出错误
+    if (!targetFileName) return Promise.reject('lottie-helper ERR: 同级目录下未找到.html文件')
+    console.log(`target resource: ${targetFileName}`)
+    // 缓存全局变量
+    global.targetFileName = targetFileName;
+
+    const htmlResult = await loadHTML(targetFileName);
+    const $ = cheerio.load(htmlResult);
+    return $;
+  } catch (error) {
+    console.log(error);
+    Promise.reject(error);
+  }
 }
 
 // 初始化，删除lohelp所插入的改变
@@ -72,8 +97,9 @@ export async function coreFetchJson(hasUserJsonURL) {
 export async function coreWriteFile($) {
   // * 加载动画JSON
   const htmlStr = $.html();
-  // TODO 优化：输出到之前遍历获取的HTML路径
-  const writeRes = await writeHTML(config.defaultFileNameHTML, htmlStr);
+  // 优化：输出到之前遍历获取的HTML路径
+  const targetFileName = global.targetFileName;
+  const writeRes = await writeHTML(targetFileName, htmlStr);
   console.log(writeRes);
 }
 

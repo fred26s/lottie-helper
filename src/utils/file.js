@@ -52,6 +52,23 @@ export const loadHTML = async (fileName = "index.html") => {
   }
 };
 
+// 读取指定目录的所有HTML文件
+export const loadHTMLDir = async () => {
+  try {
+    console.log("loadHTMLDir running...");
+    return new Promise((resolve, reject) => {
+      const filePath = path.join(process.cwd());
+      fs.readdir(filePath, "utf-8", (err, data) => {
+        if (err) return reject(err);
+        resolve(data);
+      });
+    });
+    //完成
+  } catch (err) {
+    Promise.reject(err);
+  }
+};
+
 // 写入约定的html文件
 export const writeHTML = async (filePathName, HTMLStr) => {
   try {

@@ -9,7 +9,7 @@ const versionPath = join(versionDir, "package.json");
 var packageJson = require(`${versionPath}`);
 
 // * commander命令行参数处理
-var jsonURL, ctrlRemove;
+var jsonURL, ctrlRemove, envDEV;
 
 // 命令行逻辑
 program
@@ -34,6 +34,10 @@ program
       ctrlRemove = true;
     }
   )
+  // 开发模式
+  .option("-D,--dev", "DEV: debug model", () => {
+    envDEV = true;
+  })
   .parse(process.argv);
 
 const nodeRunShell = (shell) => {
@@ -59,7 +63,7 @@ const nodeRunShell = (shell) => {
 const mainPath = resolve(__dirname, "..");
 // * 这里若是调试模式，则引入/dist/bundle.js未编译文件即可
 nodeRunShell(
-  `node ${mainPath}/dist/bundle.min.js --userJsonURL ${jsonURL} ${
-    ctrlRemove ? "--removeFlagFile" : ""
-  }`
+  `node ${mainPath}/dist/bundle${
+    envDEV ? "" : ".min"
+  }.js --userJsonURL ${jsonURL} ${ctrlRemove ? "--removeFlagFile" : ""}`
 );
