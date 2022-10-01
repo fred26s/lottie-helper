@@ -8,5 +8,8 @@ export default {
   defaultFileNameHTML: "index.html",
 
   // 默认插件操作的唯一标识，用来识别插件造成的文件变动
-  defaultUniqFlag: 'lohelp--doge-420'
+  defaultUniqFlag: "lohelp--doge-420",
+
+  defaultResourceURL:
+    "https://zaptbibbgvnlmgbtzerz.supabase.co/storage/v1/object/public/lottie-json/json/lottie-1.json",
 };

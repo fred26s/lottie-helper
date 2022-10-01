@@ -72,9 +72,9 @@ export async function coreFetchJson(hasUserJsonURL) {
   // * 加载动画JSON
   // URL加载JSON
   let jsonResult = "it fuckin empty jsonResult.";
-  const jsonURL = hasUserJsonURL || "/lottie-json/lottie-2.json";
-  const aseetsDomain = config.domain;
-  const fullJsonURL = `${aseetsDomain}${jsonURL}`;
+  // * 替换serverless后，这里使用绝对路径的URL
+  const jsonURL = hasUserJsonURL || config.defaultResourceURL;
+  const fullJsonURL = `${jsonURL}`;
   try {
     const { status, data } = await axios(fullJsonURL);
     if (status === 200) {
